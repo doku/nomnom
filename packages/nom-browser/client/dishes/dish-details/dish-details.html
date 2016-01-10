@@ -1,0 +1,45 @@
+<div layout="row" flex class="ma-dish-details">
+  <div flex="33" offset="33">
+    <legend style="margin:20px 0;">
+      Here you will see and change the details of the dish:
+    </legend>
+    <form layout="column">
+      <md-input-container>
+        <label>Dish Name</label>
+        <input ng-model="dishDetails.dish.name" ng-disabled="dishDetails.dish.owner != dishDetails.currentUserId" type="text" aria-label="Name">
+      </md-input-container>
+      <md-input-container>
+        <label>Dish Description</label>
+        <input ng-model="dishDetails.dish.description" ng-disabled="dishDetails.dish.owner != dishDetails.currentUserId" type="text" aria-label="Description">
+      </md-input-container>
+      <md-checkbox ng-model="dishDetails.dish.public" ng-disabled="dishDetails.dish.owner != dishDetails.currentUserId" aria-label="Public">
+        Is public
+      </md-checkbox>
+
+      <div layout="row" layout-align="left">
+        <md-button ng-show="dishDetails.dish.owner == dishDetails.currentUserId" ng-click="dishDetails.save()">Save</md-button>
+        <md-button ng-href="/dishes">Back</md-button>
+      </div>
+
+      <md-list ng-show="dishDetails.canInvite()">
+        <md-subheader class="md-no-sticky">Users to invite:</md-subheader>
+        <md-list-item ng-repeat="user in dishDetails.users | uninvited:dishDetails.dish">
+          <div>{{ user | displayName }}</div>
+          <md-button ng-click="dishDetails.invite(user)">Invite</md-button>
+        </md-list-item>
+        <md-list-item ng-if="(dishDetails.users | uninvited:dishDetails.dish).length <= 0">
+          Everyone are already invited.
+        </md-list-item>
+      </md-list>
+
+      <div class="angular-google-map-container">
+        <ui-gmap-google-map center="dishDetails.dish.location || dishDetails.map.center"
+                            events="dishDetails.map.events" zoom="dishDetails.map.zoom">
+          <ui-gmap-marker coords="dishDetails.dish.location" options="dishDetails.map.marker.options"
+                          events="dishDetails.map.marker.events" idkey="dishDetails.dish._id">
+          </ui-gmap-marker>
+        </ui-gmap-google-map>
+      </div>
+    </form>
+  </div>
+</div>

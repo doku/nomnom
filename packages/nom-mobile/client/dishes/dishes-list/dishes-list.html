@@ -1,0 +1,20 @@
+<ion-view title="nom" hide-back-button="true">
+  <ion-content class="padding">
+    <div class="list card">
+      <div ng-repeat="dish in dishesList.dishes">
+        <div class="item" ng-class="{'item-avatar': dish.images && dish.images.length > 0}">
+          <img ng-if="dish.images && dish.images.length > 0" ng-src="{{ dishesList.getMainImage(dish.images, true) }}">
+          {{dish.name}}
+        </div>
+        <div class="item item-text-wrap">
+          {{dish.description}}
+        </div>
+        <div class="item item-divider">
+          Yes: {{ (dish.rsvps | filter:{rsvp:'yes'}).length || "0" }},
+          Maybe: {{ (dish.rsvps | filter:{rsvp:'maybe'}).length || "0" }},
+          No: {{ (dish.rsvps | filter:{rsvp:'no'}).length || "0" }}
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
